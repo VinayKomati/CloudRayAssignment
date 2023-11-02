@@ -18,7 +18,7 @@ for (const date in groupedData) {
     //Calculating Min Max and median for the sorted data
     const min = _.minBy(dayData, (data) => data.beatsPerMinute).beatsPerMinute;
     const max = _.maxBy(dayData, (data) => data.beatsPerMinute).beatsPerMinute;
-    const median = _.medianBy(dayData, (data) => data.beatsPerMinute);
+    const median = _.median(dayData, (data) => data.beatsPerMinute);
 
     // Sort data by timestamp and pick the latest
     const latestData = _.maxBy(dayData, (data) => new Date(data.timestamps.startTime));
