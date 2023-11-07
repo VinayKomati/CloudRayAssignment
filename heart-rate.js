@@ -11,6 +11,20 @@ const groupedData = _.groupBy(heartRateData, (data) => data.timestamps.startTime
 // Calculate statistics for each day
 const result = [];
 
+
+function calculateMedian(data) {
+    const sortedData = _.sortBy(data, (item) => item.beatsPerMinute);
+    const length = sortedData.length;
+    if (length % 2 === 0) {
+      const middle1 = sortedData[length / 2 - 1].beatsPerMinute;
+      const middle2 = sortedData[length / 2].beatsPerMinute;
+      return (middle1 + middle2) / 2;
+    } else {
+      return sortedData[Math.floor(length / 2)].beatsPerMinute;
+    }
+  }
+  
+
 for (const date in groupedData) {
   if (groupedData.hasOwnProperty(date)) {
     const dayData = groupedData[date];
@@ -18,7 +32,7 @@ for (const date in groupedData) {
     //Calculating Min Max and median for the sorted data
     const min = _.minBy(dayData, (data) => data.beatsPerMinute).beatsPerMinute;
     const max = _.maxBy(dayData, (data) => data.beatsPerMinute).beatsPerMinute;
-    const median = _.median(dayData, (data) => data.beatsPerMinute);
+    const median = calculateMedian(dayData);
 
     // Sort data by timestamp and pick the latest
     const latestData = _.maxBy(dayData, (data) => new Date(data.timestamps.startTime));
